@@ -664,11 +664,12 @@ class OpenAIRealtimeWebSocketModel(RealtimeModel):
             await self._emit_event(RealtimeModelItemDeletedEvent(item_id=parsed.item_id))
         elif (
             parsed.type == "conversation.item.added"
-            or parsed.type == "conversation.item.created"
+            or parsed.type == "conversation.item.done"
+            or parsed.type == "conversation.item.created"   # deprecated "Beta -> GA"
             or parsed.type == "conversation.item.retrieved"
         ):
             previous_item_id = (
-                parsed.previous_item_id if parsed.type == "conversation.item.created" else None
+                parsed.previous_item_id if parsed.type != "conversation.item.retrieved" else None
             )
             if parsed.item.type == "message":
                 await self._handle_conversation_item(parsed.item, previous_item_id)
