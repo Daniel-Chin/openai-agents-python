@@ -68,6 +68,9 @@ class RealtimeModelSendUserInput:
     user_input: RealtimeModelUserInput
     """The user input to send."""
 
+    start_response: bool = True
+    """Whether to start a response."""
+
 
 @dataclass
 class RealtimeModelSendAudio:

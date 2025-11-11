@@ -352,7 +352,8 @@ class OpenAIRealtimeWebSocketModel(RealtimeModel):
     async def _send_user_input(self, event: RealtimeModelSendUserInput) -> None:
         converted = _ConversionHelper.convert_user_input_to_item_create(event)
         await self._send_raw_message(converted)
-        await self._send_raw_message(OpenAIResponseCreateEvent(type="response.create"))
+        if event.start_response:
+            await self._send_raw_message(OpenAIResponseCreateEvent(type="response.create"))
 
     async def _send_audio(self, event: RealtimeModelSendAudio) -> None:
         converted = _ConversionHelper.convert_audio_to_input_audio_buffer_append(event)
