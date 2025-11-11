@@ -1,3 +1,5 @@
+const SR = 24000;
+
 class RealtimeDemo {
     constructor() {
         this.ws = null;
@@ -219,14 +221,14 @@ class RealtimeDemo {
         try {
             this.stream = await navigator.mediaDevices.getUserMedia({
                 audio: {
-                    sampleRate: 24000,
+                    sampleRate: SR,
                     channelCount: 1,
                     echoCancellation: true,
                     noiseSuppression: true
                 }
             });
 
-            this.audioContext = new AudioContext({ sampleRate: 24000, latencyHint: 'interactive' });
+            this.audioContext = new AudioContext({ sampleRate: SR, latencyHint: 'interactive' });
             if (this.audioContext.state === 'suspended') {
                 try { await this.audioContext.resume(); } catch {}
             }
@@ -579,7 +581,7 @@ class RealtimeDemo {
         if (!this.playbackInitPromise) {
             this.playbackInitPromise = (async () => {
                 if (!this.playbackAudioContext) {
-                    this.playbackAudioContext = new AudioContext({ sampleRate: 24000, latencyHint: 'interactive' });
+                    this.playbackAudioContext = new AudioContext({ sampleRate: SR, latencyHint: 'interactive' });
                 }
 
                 if (this.playbackAudioContext.state === 'suspended') {
